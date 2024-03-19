@@ -15,4 +15,10 @@
     <string name="already_have_an_account">Already have an account? Log In here</string>
 
 
+    <!-- Groups Activity -->
+    <string name="groups">GROUPS</string>
+
+
+
+
 </resources>
