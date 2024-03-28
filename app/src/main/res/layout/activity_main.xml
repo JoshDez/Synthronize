@@ -25,9 +25,10 @@
         app:layout_constraintTop_toTopOf="parent"
         />
 
-    <androidx.recyclerview.widget.RecyclerView
+    <!-- 572dp -->
+    <FrameLayout
         android:orientation="vertical"
-        android:id="@+id/centerLinear"
+        android:id="@+id/mainFrameLayout"
         android:layout_width="match_parent"
         android:layout_height="572dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomLinear"
@@ -35,7 +36,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/groupToolbar" >
 
-    </androidx.recyclerview.widget.RecyclerView>
+    </FrameLayout>
 
 
     <LinearLayout
@@ -49,30 +50,35 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" >
         <ImageButton
+            android:id="@+id/exploreBtn"
             android:layout_width="55dp"
             android:layout_height="55dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:background="@drawable/explore_not_selected"/>
         <ImageButton
+            android:id="@+id/notificationBtn"
             android:layout_width="55dp"
             android:layout_height="55dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:background="@drawable/notifications_not_selected"/>
         <ImageButton
+            android:id="@+id/groupsBtn"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:background="@drawable/groups_not_selected"/>
         <ImageButton
+            android:id="@+id/chatBtn"
             android:layout_width="55dp"
             android:layout_height="55dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:background="@drawable/chat_not_selected"/>
         <ImageButton
+            android:id="@+id/profileBtn"
             android:layout_width="55dp"
             android:layout_height="55dp"
             android:layout_marginStart="10dp"
