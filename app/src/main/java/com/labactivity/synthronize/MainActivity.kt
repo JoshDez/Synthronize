@@ -10,40 +10,47 @@ import com.labactivity.synthronize.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var toolbar: androidx.appcompat.widget.Toolbar
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        toolbar = binding.groupToolbar
-        setSupportActionBar(toolbar)
-        //default configurations
         selectNavigation(binding.groupsBtn.id)
-        replaceFragment(GroupSelectionFragment())
+        replaceFragment(GroupSelectionFragment(binding))
 
+
+
+
+        //BOTTOM NAVIGATION BUTTONS
         binding.groupsBtn.setOnClickListener {
             selectNavigation(binding.groupsBtn.id)
-            replaceFragment(GroupSelectionFragment())
+            binding.toolbarTitleTV.text = "GROUPS"
+            replaceFragment(GroupSelectionFragment(binding))
         }
 
         binding.exploreBtn.setOnClickListener {
             selectNavigation(binding.exploreBtn.id)
-            replaceFragment(ExploreFragment())
+            binding.toolbarTitleTV.text = "EXPLORE"
+            replaceFragment(ExploreFragment(binding))
         }
 
         binding.notificationBtn.setOnClickListener {
             selectNavigation(binding.notificationBtn.id)
-            replaceFragment(NotificationFragment())
+            binding.toolbarTitleTV.text = "NOTIFICATIONS"
+            replaceFragment(NotificationFragment(binding))
         }
 
         binding.profileBtn.setOnClickListener {
             selectNavigation(binding.profileBtn.id)
-            replaceFragment(ProfileFragment())
+            binding.toolbarTitleTV.text = "PROFILE"
+            replaceFragment(ProfileFragment(binding))
         }
         binding.chatBtn.setOnClickListener {
             selectNavigation(binding.chatBtn.id)
-            replaceFragment(ChatFragment())
+            replaceFragment(ChatFragment(binding))
         }
+
+
+
     }
 
     private fun replaceFragment(fragment: Fragment) {

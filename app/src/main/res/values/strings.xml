@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Synthronize</string>
-
     <!-- Login Activity -->
     <string name="email">Email</string>
     <string name="password">Password</string>
@@ -13,6 +12,13 @@
     <string name="full_name">Full Name</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="already_have_an_account">Already have an account? Log In here</string>
+    
+    <!-- Main Activity -->
+    <string name="Groups">Groups</string>
+    <string name="Chats">Chats</string>
+    <string name="Profile">Profile</string>
+    <string name="Explore">Explore</string>
+    <string name="Notifications">Notifications</string>
 
 
     <!-- Groups Activity -->
