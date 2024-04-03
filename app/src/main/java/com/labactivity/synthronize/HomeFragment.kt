@@ -8,15 +8,9 @@ import android.view.ViewGroup
 import com.labactivity.synthronize.databinding.ActivityMainBinding
 import com.labactivity.synthronize.databinding.FragmentHomeBinding
 import com.labactivity.synthronize.databinding.FragmentNotificationBinding
-class HomeFragment : Fragment {
+class HomeFragment(private val mainBinding: ActivityMainBinding) : Fragment() {
     // TODO: Rename and change types of parameters
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var mainBinding: ActivityMainBinding
-
-    constructor() : super()
-    constructor(mainBinding: ActivityMainBinding): super() {
-        this.mainBinding = mainBinding
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

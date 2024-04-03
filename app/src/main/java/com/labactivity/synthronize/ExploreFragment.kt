@@ -1,5 +1,6 @@
 package com.labactivity.synthronize
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,15 +11,9 @@ import com.labactivity.synthronize.databinding.ActivityMainBinding
 import com.labactivity.synthronize.databinding.FragmentChatBinding
 import com.labactivity.synthronize.databinding.FragmentExploreBinding
 import com.labactivity.synthronize.databinding.FragmentGroupBinding
-class ExploreFragment : Fragment {
+class ExploreFragment(private val mainBinding:ActivityMainBinding) : Fragment() {
     // TODO: Rename and change types of parameters
     private lateinit var binding:FragmentExploreBinding
-    private lateinit var mainBinding: ActivityMainBinding
-
-    constructor() : super()
-    constructor(mainBinding: ActivityMainBinding): super() {
-        this.mainBinding = mainBinding
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,5 +32,10 @@ class ExploreFragment : Fragment {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mainBinding.toolbarTitleTV.text = "EXPLORE"
+
+        mainBinding.searchBtn.setOnClickListener {
+            val intent = Intent(activity, Search::class.java)
+            startActivity(intent)
+        }
     }
 }

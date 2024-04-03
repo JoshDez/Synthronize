@@ -17,9 +17,6 @@ class MainActivity : AppCompatActivity() {
         selectNavigation(binding.groupsBtn.id)
         replaceFragment(GroupSelectionFragment(binding))
 
-
-
-
         //BOTTOM NAVIGATION BUTTONS
         binding.groupsBtn.setOnClickListener {
             selectNavigation(binding.groupsBtn.id)

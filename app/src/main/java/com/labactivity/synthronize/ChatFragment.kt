@@ -11,15 +11,9 @@ import com.labactivity.synthronize.databinding.FragmentChatBinding
 import com.labactivity.synthronize.databinding.FragmentProfileBinding
 
 // TODO: Rename parameter arguments, choose names that match
-class ChatFragment : Fragment {
+class ChatFragment(private val mainBinding: ActivityMainBinding) : Fragment() {
     // TODO: Rename and change types of parameters
     private lateinit var binding: FragmentChatBinding
-    private lateinit var mainBinding: ActivityMainBinding
-
-    constructor() : super()
-    constructor(mainBinding: ActivityMainBinding): super() {
-        this.mainBinding = mainBinding
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -9,15 +9,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.labactivity.synthronize.databinding.ActivityMainBinding
 import com.labactivity.synthronize.databinding.FragmentGroupBinding
 import com.labactivity.synthronize.databinding.FragmentProfileBinding
-class GroupFragment : Fragment {
+class GroupFragment(private val mainBinding: ActivityMainBinding) : Fragment() {
     // TODO: Rename and change types of parameters
     private lateinit var binding: FragmentGroupBinding
-    private lateinit var mainBinding: ActivityMainBinding
-
-    constructor() : super()
-    constructor(mainBinding: ActivityMainBinding): super() {
-        this.mainBinding = mainBinding
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
