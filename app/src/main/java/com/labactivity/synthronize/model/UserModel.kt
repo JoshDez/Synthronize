@@ -4,5 +4,6 @@ import com.google.firebase.Timestamp
 
 data class UserModel(
     val fullName: String = "",
-    val createdTimestamp: Timestamp
+    val createdTimestamp: Timestamp = Timestamp.now(),
+    val userID: String = ""
 )

@@ -24,6 +24,10 @@
     <string name="Search">Search</string>
     <string name="SEARCH">SEARCH</string>
 
+    <!-- Chatroom Activity -->
+    <string name="User">User</string>
+    <string name="Write_Message_Here">Write Message Here..</string>
+
 
     <!-- Groups Activity -->
     <string name="groups">GROUPS</string>
