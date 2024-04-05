@@ -1,12 +1,14 @@
 package com.labactivity.synthronize.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.labactivity.synthronize.Chatroom
 import com.labactivity.synthronize.databinding.ItemChatroomBinding
 import com.labactivity.synthronize.model.ChatroomModel
 import com.labactivity.synthronize.model.UserModel
@@ -30,33 +32,43 @@ class ChatroomAdapter(private val context: Context, options: FirestoreRecyclerOp
 
     class ChatroomViewHolder(private val binding: ItemChatroomBinding, private val context: Context): RecyclerView.ViewHolder(binding.root){
 
-        private lateinit var userModel: UserModel
+        private lateinit var chatroomModel: ChatroomModel
 
         fun bind(model: ChatroomModel){
-            if (model.chatroomType == "direct_message"){
+            chatroomModel = model
+
+            if (chatroomModel.chatroomType == "direct_message"){
                 //if the user is id
-                if (model.userIdList[0] != FirebaseUtil().currentUserUid()){
-                    getUserModel(model.userIdList[0])
+                if (chatroomModel.userIdList[0] != FirebaseUtil().currentUserUid()){
+                    bindUser(chatroomModel.userIdList[0])
                 } else {
-                    getUserModel(model.userIdList[1])
+                    bindUser(chatroomModel.userIdList[1])
                 }
             } else {
-
+                //TO BE IMPLEMENTED FOR GROUP CHATS
+                bindGroupChat()
             }
         }
-        //Gawan ng firebase util
-        fun getUserModel(uid:String) {
-            val ref = FirebaseUtil().targetUserDetails(uid)
-                .get().addOnSuccessListener {
-                    if (it.exists()){
-                        userModel = UserModel(
-                            fullName = it.getString("fullName").toString(),
-                            //profile pic
-                        )
 
-                        binding.userFullNameTV.text = userModel.fullName
-                    }
+        private fun bindGroupChat() {
+            //TO BE IMPLEMENTED
+        }
+
+        //Gawan ng firebase util
+        private fun bindUser(uid:String){
+            FirebaseUtil().targetUserDetails(uid).get().addOnSuccessListener {
+                val fullName = it.getString("fullName").toString()
+                binding.chatroomNameTV.text = fullName
+                //other fields
+
+                binding.chatroomLayout.setOnClickListener {
+                    val intent = Intent(context, Chatroom::class.java)
+                    intent.putExtra("chatroomName", fullName)
+                    intent.putExtra("userID", uid)
+                    intent.putExtra("isDM", true)
+                    context.startActivity(intent)
                 }
+            }
         }
 
 

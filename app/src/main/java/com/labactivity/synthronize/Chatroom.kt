@@ -17,6 +17,7 @@ import com.labactivity.synthronize.model.MessageModel
 import com.labactivity.synthronize.model.UserModel
 import com.labactivity.synthronize.utils.FirebaseUtil
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 class Chatroom : AppCompatActivity() {
@@ -96,25 +97,33 @@ class Chatroom : AppCompatActivity() {
 
         //Check if the chatroomId exist on targetUser's chatroom collection
         if (isDM){
-            //checkIfChatroomExistOnUser(receiverUid)
-            //checkIfChatroomExistOnUser(FirebaseUtil().currentUserUid())
-
+            checkIfChatroomExistForUser(receiverUid)
+            checkIfChatroomExistForUser(FirebaseUtil().currentUserUid())
         } else {
-            //TO BE IMPLEMENTED
+            //TO BE IMPLEMENTED FOR GROUP CHAT
         }
     }
 
-    private fun checkIfChatroomExistOnUser(userID:String){
-        FirebaseUtil().retrieveUsersChatRooms(userID).get().addOnSuccessListener {
-            if(!it.isEmpty){
-                for (document in it){
-                    if (chatroomID == document.id){
-                        return@addOnSuccessListener
+    private fun checkIfChatroomExistForUser(userID:String){
+        var chatroomList:ArrayList<String>?
+        FirebaseUtil().targetUserDetails(userID).get().addOnSuccessListener {
+            if (it.exists()){
+                chatroomList = it.get("chatroomList") as? ArrayList<String>
+                if (!chatroomList.isNullOrEmpty()){
+                    for (chatroom in chatroomList!!){
+                        if (chatroomID == chatroom){
+                            return@addOnSuccessListener
+                        }
                     }
+                    chatroomList!!.add(chatroomID)
+                    FirebaseUtil().targetUserDetails(userID).update("chatroomList", chatroomList)
+                } else {
+                    chatroomList = arrayListOf(chatroomID)
+                    val newData = hashMapOf(
+                        "chatroomList" to chatroomList
+                    )
+                    FirebaseUtil().targetUserDetails(userID).update(newData as Map<String, ArrayList<String>>)
                 }
-                FirebaseUtil().retrieveUsersChatRooms(userID).document(chatroomID).set("")
-            } else {
-                FirebaseUtil().retrieveUsersChatRooms(userID).document(chatroomID).set("")
             }
         }
     }

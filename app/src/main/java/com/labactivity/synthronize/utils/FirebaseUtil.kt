@@ -4,6 +4,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.labactivity.synthronize.model.UserModel
 
 class FirebaseUtil {
 
@@ -39,10 +40,6 @@ class FirebaseUtil {
 
     fun retrieveChatsFromChatroom(chatroomID: String): CollectionReference {
         return retrieveChatRoomReference(chatroomID).collection("chats")
-    }
-
-    fun retrieveUsersChatRooms(targetUid: String): CollectionReference {
-        return targetUserDetails(targetUid).collection("userChatrooms")
     }
 
     fun retrieveMembersFromGroup(groupUid: String): CollectionReference {
