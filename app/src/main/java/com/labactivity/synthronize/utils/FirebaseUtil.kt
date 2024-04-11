@@ -8,28 +8,27 @@ import com.labactivity.synthronize.model.UserModel
 
 class FirebaseUtil {
 
+    //For Authentication
     fun currentUserUid(): String {
         return FirebaseAuth.getInstance().uid!!
     }
-
     fun isLoggedIn(): Boolean {
         return FirebaseAuth.getInstance().uid != null
     }
 
+    //Retrieving users documents
     fun currentUserDetails(): DocumentReference {
         return FirebaseFirestore.getInstance().collection("users").document(currentUserUid())
     }
-
-    //Retrieves target user's document
     fun targetUserDetails(targetUid:String): DocumentReference {
         return FirebaseFirestore.getInstance().collection("users").document(targetUid)
     }
-
     fun allUsersCollectionReference(): CollectionReference {
         return FirebaseFirestore.getInstance().collection("users")
     }
 
-    //Chat
+
+    //Methods for Chat Function
     fun retrieveChatRoomReference(chatroomID:String): DocumentReference {
         return FirebaseFirestore.getInstance().collection("chatroom").document(chatroomID)
     }
@@ -42,17 +41,19 @@ class FirebaseUtil {
         return retrieveChatRoomReference(chatroomID).collection("chats")
     }
 
-    fun retrieveMembersFromGroup(groupUid: String): CollectionReference {
-        return FirebaseFirestore.getInstance().collection("group").document(groupUid)
-            .collection("members")
-    }
-
     fun getChatRoomID(uid1:String, uid2:String): String{
         return if (uid1.hashCode() < uid2.hashCode()){
             "$uid1-$uid2"
         } else {
             "$uid2-$uid1"
         }
+    }
+
+
+    //Methods for Group Function
+    fun retrieveMembersFromGroup(groupUid: String): CollectionReference {
+        return FirebaseFirestore.getInstance().collection("group").document(groupUid)
+            .collection("members")
     }
     fun getChatRoomID(groupUid:String):String{
         return "$groupUid"

@@ -27,22 +27,26 @@ class MessageAdapter(private val context: Context, options: FirestoreRecyclerOpt
     class MessageViewHolder(private val binding: ItemMessageBinding, private val context: Context): RecyclerView.ViewHolder(binding.root){
 
         fun bind(model: MessageModel){
+            var name = ""
+
+            //get user details
+            FirebaseUtil().targetUserDetails(model.senderID).get().addOnSuccessListener {
+                if (it.exists()){
+                    name = it.getString("fullName").toString()
+                    binding.userNameTV.text = name
+                }
+            }
+
+            //bind user's message
             if (model.senderID == FirebaseUtil().currentUserUid()){
                 //If user is sender
                 binding.recieverLayout.visibility = View.GONE
+                binding.senderLayout.visibility = View.VISIBLE
                 binding.senderMsgTV.text = model.message
             } else {
-                var name = ""
-                val ref = FirebaseUtil().targetUserDetails(model.senderID).get().addOnSuccessListener {
-                    if (it.exists()){
-                        name = it.getString("fullName").toString()
-                        //other details like profile picture
-                    }
-                    //if user is reciever
-                    binding.senderLayout.visibility = View.GONE
-                    binding.recieverMsgTV.text = model.message
-                    binding.userNameTV.text = name
-                }
+                binding.senderLayout.visibility = View.GONE
+                binding.recieverLayout.visibility = View.VISIBLE
+                binding.recieverMsgTV.text = model.message
             }
         }
 

@@ -1,5 +1,6 @@
 package com.labactivity.synthronize
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -36,12 +37,17 @@ class ChatFragment(private val mainBinding: ActivityMainBinding) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mainBinding.toolbarTitleTV.text = "INBOX"
-        recyclerView = binding.chatroomsRV
-        recyclerView.layoutManager = LinearLayoutManager(activity)
-        getChatroomList()
+
+        //checks if fragment is added to the main activity
+        if (isAdded){
+            val context = requireContext()
+            recyclerView = binding.chatroomsRV
+            recyclerView.layoutManager = LinearLayoutManager(activity)
+            getChatroomList(context)
+        }
     }
 
-    private fun getChatroomList(){
+    private fun getChatroomList(context: Context){
         //Retrieves current user chatroomList
         FirebaseUtil().currentUserDetails().get().addOnSuccessListener {
             if (it.exists()){
@@ -49,16 +55,16 @@ class ChatFragment(private val mainBinding: ActivityMainBinding) : Fragment() {
                 if (!chatroomList.isNullOrEmpty()) {
                     val myQuery:Query = FirebaseUtil().retrieveAllChatRoomReferences().whereIn(FieldPath.documentId(), chatroomList)
                         .orderBy("lastMsgTimestamp", Query.Direction.DESCENDING)
-                    setupChatroomListRV(myQuery)
+                    setupChatroomListRV(myQuery, context)
                 }
             }
         }
     }
 
-    private fun setupChatroomListRV(query: Query){
+    private fun setupChatroomListRV(query: Query, context: Context){
         val options: FirestoreRecyclerOptions<ChatroomModel> =
             FirestoreRecyclerOptions.Builder<ChatroomModel>().setQuery(query, ChatroomModel::class.java).build()
-        chatroomAdapter = ChatroomAdapter(requireContext(), options)
+        chatroomAdapter = ChatroomAdapter(context, options)
         recyclerView.adapter = chatroomAdapter
         chatroomAdapter.startListening()
     }
