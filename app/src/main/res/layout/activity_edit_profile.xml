@@ -41,11 +41,63 @@
 
     </RelativeLayout>
     <com.google.android.material.divider.MaterialDivider
-        android:id="@+id/divider1"
+        android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/mainToolbar"
         android:background="@color/light_purple"
         app:dividerColor="@color/light_purple" />
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_below="@+id/divider"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <FrameLayout
+                android:layout_below="@id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="250dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/userCoverIV"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:src="@color/black"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/userProfileCIV"
+                        android:layout_width="130dp"
+                        android:layout_height="130dp"
+                        android:layout_centerInParent="true"
+                        android:layout_alignParentBottom="true"
+                        android:src="@color/light_purple"/>
+
+
+                </RelativeLayout>
+            </FrameLayout>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@id/mainToolbar"
+                android:background="@color/light_purple"
+                app:dividerColor="@color/light_purple" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>
