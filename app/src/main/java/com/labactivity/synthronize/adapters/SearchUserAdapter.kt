@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.labactivity.synthronize.Chatroom
+import com.labactivity.synthronize.OtherUserProfile
 import com.labactivity.synthronize.databinding.ItemProfileBinding
 import com.labactivity.synthronize.model.UserModel
 import com.labactivity.synthronize.utils.FirebaseUtil
@@ -36,17 +37,14 @@ class SearchUserAdapter(private val context: Context, options: FirestoreRecycler
                 binding.userFullNameTV.text = "${model.fullName} (You)"
             }else {
                 binding.userFullNameTV.text = model.fullName
-            }
-
-            binding.userContainerRL.setOnClickListener{
-                if (model.userID != FirebaseUtil().currentUserUid()){
-                    val intent = Intent(context, Chatroom::class.java)
-                    intent.putExtra("chatroomName", model.fullName)
+                binding.userContainerRL.setOnClickListener{
+                    val intent = Intent(context, OtherUserProfile::class.java)
+                    intent.putExtra("fullName", model.fullName)
                     intent.putExtra("userID", model.userID)
-                    intent.putExtra("isDM", true)
                     context.startActivity(intent)
                 }
             }
+
 
 
 
