@@ -226,6 +226,8 @@
                 android:id="@+id/userDescriptionTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:textSize="15sp"
                 android:drawableTint="#00FFFFFF"
                 android:text="@string/user_description"
                 android:textAlignment="center"

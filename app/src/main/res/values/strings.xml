@@ -36,6 +36,7 @@
     <string name="user_description">user description</string>
     <string name="add_friend">Add Friend</string>
     <string name="message_user">Message User</string>
+    <string name="edit_profile">Edit Profile</string>
 
 
 </resources>

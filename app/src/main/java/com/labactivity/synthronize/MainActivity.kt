@@ -14,8 +14,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        selectNavigation(binding.groupsBtn.id)
-        replaceFragment(GroupSelectionFragment(binding))
+
+        onStartFragment()
 
         //BOTTOM NAVIGATION BUTTONS
         binding.groupsBtn.setOnClickListener {
@@ -48,6 +48,21 @@ class MainActivity : AppCompatActivity() {
 
 
 
+    }
+    //Function that checks if the intent request for a specific fragment
+    private fun onStartFragment(){
+        val fragmentRequest = intent.getStringExtra("fragment").toString()
+
+        if (fragmentRequest == "profile"){
+            selectNavigation(binding.profileBtn.id)
+            binding.toolbarTitleTV.text = "PROFILE"
+            replaceFragment(ProfileFragment(binding))
+        } else {
+            //default fragment
+            selectNavigation(binding.groupsBtn.id)
+            binding.toolbarTitleTV.text = "GROUPS"
+            replaceFragment(GroupSelectionFragment(binding))
+        }
     }
 
     private fun replaceFragment(fragment: Fragment) {

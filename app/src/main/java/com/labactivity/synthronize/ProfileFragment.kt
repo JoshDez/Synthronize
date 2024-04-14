@@ -1,15 +1,13 @@
 package com.labactivity.synthronize
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.Timestamp
 import com.labactivity.synthronize.databinding.ActivityMainBinding
-import com.labactivity.synthronize.databinding.FragmentExploreBinding
-import com.labactivity.synthronize.databinding.FragmentNotificationBinding
 import com.labactivity.synthronize.databinding.FragmentProfileBinding
 import com.labactivity.synthronize.model.UserModel
 import com.labactivity.synthronize.utils.FirebaseUtil
@@ -36,15 +34,17 @@ class ProfileFragment(private var mainBinding: ActivityMainBinding) : Fragment()
         super.onViewCreated(view, savedInstanceState)
         mainBinding.toolbarTitleTV.text = "PROFILE"
 
-        FirebaseUtil().currentUserDetails().get().addOnSuccessListener {
-            if (it.exists()){
-                userModel = UserModel(
-                    fullName = it.get("fullName") as String,
-                    userID = it.get("userID") as String,
-                    createdTimestamp = it.get("createdTimestamp") as Timestamp,
-                    chatroomList = it.get("chatroomList") as List<String>
-                )
-                bindUserDetails()
+        if (isAdded){
+            FirebaseUtil().currentUserDetails().get().addOnSuccessListener {
+                if (it.exists()){
+                    userModel = UserModel(
+                        fullName = it.get("fullName") as String,
+                        userID = it.get("userID") as String,
+                        createdTimestamp = it.get("createdTimestamp") as Timestamp,
+                        chatroomList = it.get("chatroomList") as List<String>
+                    )
+                    bindUserDetails()
+                }
             }
         }
 
@@ -53,5 +53,10 @@ class ProfileFragment(private var mainBinding: ActivityMainBinding) : Fragment()
     private fun bindUserDetails() {
         binding.userNameTV.text = userModel.userID
         binding.userDisplayNameTV.text = userModel.fullName
+        binding.editProfileBtn.setOnClickListener {
+            val intent = Intent(requireContext(), EditProfile::class.java)
+            intent.putExtra("userID", userModel.userID)
+            startActivity(intent)
+        }
     }
 }

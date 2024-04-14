@@ -15,7 +15,7 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
             <FrameLayout
                 android:layout_below="@id/divider"
                 android:layout_width="match_parent"
@@ -185,11 +185,13 @@
                 </RelativeLayout>
             </FrameLayout>
 
-            <EditText
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:textSize="15sp"
                 android:drawableTint="#00FFFFFF"
-                android:text="Hello Im under the water please help me"
+                android:text="@string/user_description"
                 android:textAlignment="center"
                 android:textColor="@color/light_purple"
                 android:backgroundTint="#00FFFFFF"/>
@@ -207,9 +209,10 @@
                     android:text="Add Friend"/>
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/editProfileBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Add Friend"/>
+                    android:text="Edit Profile"/>
             </LinearLayout>
 
             <com.google.android.material.divider.MaterialDivider
