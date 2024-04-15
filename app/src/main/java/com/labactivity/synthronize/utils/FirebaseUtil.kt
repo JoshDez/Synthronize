@@ -48,14 +48,4 @@ class FirebaseUtil {
             "$uid2-$uid1"
         }
     }
-
-
-    //Methods for Group Function
-    fun retrieveMembersFromGroup(groupUid: String): CollectionReference {
-        return FirebaseFirestore.getInstance().collection("group").document(groupUid)
-            .collection("members")
-    }
-    fun getChatRoomID(groupUid:String):String{
-        return "$groupUid"
-    }
 }

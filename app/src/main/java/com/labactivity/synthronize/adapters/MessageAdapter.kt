@@ -10,6 +10,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.labactivity.synthronize.databinding.ItemMessageBinding
 import com.labactivity.synthronize.model.MessageModel
 import com.labactivity.synthronize.utils.FirebaseUtil
+import com.labactivity.synthronize.utils.ModelHandler
 
 class MessageAdapter(private val context: Context, options: FirestoreRecyclerOptions<MessageModel>):
     FirestoreRecyclerAdapter<MessageModel, MessageAdapter.MessageViewHolder>(options) {
@@ -25,34 +26,23 @@ class MessageAdapter(private val context: Context, options: FirestoreRecyclerOpt
     }
 
     class MessageViewHolder(private val binding: ItemMessageBinding, private val context: Context): RecyclerView.ViewHolder(binding.root){
-
         fun bind(model: MessageModel){
-            var name = ""
-
-            //get user details
-            FirebaseUtil().targetUserDetails(model.senderID).get().addOnSuccessListener {
-                if (it.exists()){
-                    name = it.getString("fullName").toString()
-                    binding.userNameTV.text = name
-                }
-            }
-
             //bind user's message
             if (model.senderID == FirebaseUtil().currentUserUid()){
-                //If user is sender
+                //If user is the sender
                 binding.recieverLayout.visibility = View.GONE
                 binding.senderLayout.visibility = View.VISIBLE
                 binding.senderMsgTV.text = model.message
             } else {
+               //If user is the receiver
                 binding.senderLayout.visibility = View.GONE
                 binding.recieverLayout.visibility = View.VISIBLE
                 binding.recieverMsgTV.text = model.message
+                ModelHandler().retrieveUserModel(model.senderID){userModel ->
+                    binding.userNameTV.text = userModel.fullName
+                }
             }
         }
-
-
-
-
     }
 
 }

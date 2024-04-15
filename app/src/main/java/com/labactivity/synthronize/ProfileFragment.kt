@@ -11,10 +11,10 @@ import com.labactivity.synthronize.databinding.ActivityMainBinding
 import com.labactivity.synthronize.databinding.FragmentProfileBinding
 import com.labactivity.synthronize.model.UserModel
 import com.labactivity.synthronize.utils.FirebaseUtil
+import com.labactivity.synthronize.utils.ModelHandler
 
 class ProfileFragment(private var mainBinding: ActivityMainBinding) : Fragment() {
     private lateinit var binding: FragmentProfileBinding
-    private lateinit var userModel: UserModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,25 +34,19 @@ class ProfileFragment(private var mainBinding: ActivityMainBinding) : Fragment()
         super.onViewCreated(view, savedInstanceState)
         mainBinding.toolbarTitleTV.text = "PROFILE"
 
+        //checks if the fragment is already added to the activity
         if (isAdded){
-            FirebaseUtil().currentUserDetails().get().addOnSuccessListener {
-                if (it.exists()){
-                    userModel = UserModel(
-                        fullName = it.get("fullName") as String,
-                        userID = it.get("userID") as String,
-                        createdTimestamp = it.get("createdTimestamp") as Timestamp,
-                        chatroomList = it.get("chatroomList") as List<String>
-                    )
-                    bindUserDetails()
-                }
+            ModelHandler().retrieveUserModel(FirebaseUtil().currentUserUid()) {userModel ->
+                bindUserDetails(userModel)
             }
         }
-
     }
 
-    private fun bindUserDetails() {
-        binding.userNameTV.text = userModel.userID
+    private fun bindUserDetails(userModel: UserModel) {
+        binding.userNameTV.text = userModel.username
         binding.userDisplayNameTV.text = userModel.fullName
+        binding.userDescriptionTV.text = userModel.description
+
         binding.editProfileBtn.setOnClickListener {
             val intent = Intent(requireContext(), EditProfile::class.java)
             intent.putExtra("userID", userModel.userID)

@@ -11,18 +11,11 @@ import com.google.firebase.Timestamp
 import com.labactivity.synthronize.databinding.ActivityEditProfileBinding
 import com.labactivity.synthronize.model.UserModel
 import com.labactivity.synthronize.utils.FirebaseUtil
+import com.labactivity.synthronize.utils.ModelHandler
 
 class EditProfile : AppCompatActivity() {
     private lateinit var binding:ActivityEditProfileBinding
-    private var fullName:String = ""
-    private var userID:String = ""
-    private var createdTimestamp = Timestamp.now()
-    private var chatroomList: List<String> = listOf()
-    //To be implemented
-    private var birthday = "To be implemented"
-    private var username = "To be implemented"
-    private var description = "To be implemented"
-
+    private lateinit var userModel: UserModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,27 +56,18 @@ class EditProfile : AppCompatActivity() {
         } else {
             //Loading to be implemented
             //Set User Details
+            userModel.fullName = binding.fullNameEdtTxt.text.toString()
+            userModel.username = binding.usernameEdtTxt.text.toString()
+            userModel.description = binding.descriptionEdtTxt.text.toString()
+            //other fields to be implemented
+            userModel.birthday = binding.birthdayEdtTxt.text.toString()
             setCurrentUserDetails()
         }
     }
 
     private fun setCurrentUserDetails() {
-        fullName = binding.fullNameEdtTxt.text.toString()
-        //other fields to be implemented
-        username = binding.usernameEdtTxt.text.toString()
-        birthday = binding.birthdayEdtTxt.text.toString()
-        description = binding.descriptionEdtTxt.text.toString()
-
-        val userModel = UserModel(
-            fullName,
-            createdTimestamp,
-            userID,
-            chatroomList
-            //other fields to be implemented
-        )
-
-        FirebaseUtil().currentUserDetails().set(userModel).addOnCompleteListener {taskSet ->
-            if (taskSet.isSuccessful){
+        FirebaseUtil().currentUserDetails().set(userModel).addOnCompleteListener {
+            if (it.isSuccessful){
                 Toast.makeText(this, "User details successfully updated", Toast.LENGTH_SHORT).show()
                 backToProfile()
             } else {
@@ -93,29 +77,22 @@ class EditProfile : AppCompatActivity() {
     }
 
     private fun retrieveCurrentUserDetails() {
-        FirebaseUtil().currentUserDetails().get().addOnSuccessListener {
-            if (it.exists()){
-                //Retrieve user data from firebase
-                fullName = it.get("fullName") as String
-                createdTimestamp = it.get("createdTimestamp") as Timestamp
-                userID = it.get("userID") as String
-                chatroomList = it.get("chatroomList") as List<String>
-
-                //bind user details
-                binding.fullNameEdtTxt.setText(fullName)
-                binding.usernameEdtTxt.setText(username)
-                binding.birthdayEdtTxt.setText(birthday)
-                binding.descriptionEdtTxt.setText(description)
-            }
+        ModelHandler().retrieveUserModel(FirebaseUtil().currentUserUid()) {result ->
+            //bind user details
+            userModel = result
+            binding.fullNameEdtTxt.setText(userModel.fullName)
+            binding.usernameEdtTxt.setText(userModel.username)
+            binding.birthdayEdtTxt.setText(userModel.birthday)
+            binding.descriptionEdtTxt.setText(userModel.description)
         }
     }
 
     private fun isModified(): Boolean {
-        return binding.fullNameEdtTxt.text.toString() != fullName ||
-            binding.usernameEdtTxt.text.toString() != username ||
+        return binding.fullNameEdtTxt.text.toString() != userModel.fullName ||
+            binding.usernameEdtTxt.text.toString() != userModel.username ||
                 //To be implemented
-            binding.descriptionEdtTxt.text.toString() != description ||
-            binding.birthdayEdtTxt.text.toString() != birthday
+            binding.descriptionEdtTxt.text.toString() != userModel.description ||
+            binding.birthdayEdtTxt.text.toString() != userModel.birthday
     }
     private fun backToProfile() {
         val intent = Intent(this, MainActivity::class.java)

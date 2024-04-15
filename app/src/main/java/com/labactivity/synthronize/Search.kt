@@ -51,6 +51,7 @@ class Search : AppCompatActivity() {
 
         val options:FirestoreRecyclerOptions<UserModel> =
             FirestoreRecyclerOptions.Builder<UserModel>().setQuery(myQuery, UserModel::class.java).build()
+
         searchUserAdapter = SearchUserAdapter(this, options)
         recyclerView.adapter = searchUserAdapter
         searchUserAdapter.startListening()
