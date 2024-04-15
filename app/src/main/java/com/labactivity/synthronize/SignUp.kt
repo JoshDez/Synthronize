@@ -73,8 +73,4 @@ class SignUp : AppCompatActivity() {
             this.finish()
         }
     }
-
-    private fun addUserToDatabase(name:String, email:String, uid:String){
-
-    }
 }
