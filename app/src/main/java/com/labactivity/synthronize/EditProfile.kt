@@ -90,8 +90,8 @@ class EditProfile : AppCompatActivity() {
     private fun isModified(): Boolean {
         return binding.fullNameEdtTxt.text.toString() != userModel.fullName ||
             binding.usernameEdtTxt.text.toString() != userModel.username ||
-                //To be implemented
             binding.descriptionEdtTxt.text.toString() != userModel.description ||
+                //TODO: birthday is still String
             binding.birthdayEdtTxt.text.toString() != userModel.birthday
     }
     private fun backToProfile() {

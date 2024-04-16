@@ -13,6 +13,8 @@ import com.labactivity.synthronize.databinding.ItemChatroomBinding
 import com.labactivity.synthronize.model.ChatroomModel
 import com.labactivity.synthronize.model.UserModel
 import com.labactivity.synthronize.utils.FirebaseUtil
+import com.labactivity.synthronize.utils.ModelHandler
+import java.text.SimpleDateFormat
 import java.util.logging.Handler
 
 class ChatroomAdapter(private val context: Context, options: FirestoreRecyclerOptions<ChatroomModel>):
@@ -51,29 +53,33 @@ class ChatroomAdapter(private val context: Context, options: FirestoreRecyclerOp
         }
 
         private fun bindGroupChat() {
-            //TO BE IMPLEMENTED
+            TODO("Not yet implemented")
         }
+
 
         //Gawan ng firebase util
         private fun bindUser(uid:String){
-            FirebaseUtil().targetUserDetails(uid).get().addOnSuccessListener {
-                val fullName = it.getString("fullName").toString()
-                binding.chatroomNameTV.text = fullName
+            ModelHandler().retrieveUserModel(uid){userModel ->
+                binding.chatroomNameTV.text = userModel.fullName
+                binding.lastTimestampTV.text = SimpleDateFormat("HH:MM")
+                    .format(chatroomModel.lastMsgTimestamp.toDate())
                 //other fields
+                if (chatroomModel.lastMessageUserId != FirebaseUtil().currentUserUid())
+                    //if the message is not from the current user
+                    binding.lastUserMessageTV.text = "${userModel.fullName}: ${chatroomModel.lastMessage}"
+                else
+                    //if the message is from the current user
+                    binding.lastUserMessageTV.text = chatroomModel.lastMessage
 
                 binding.chatroomLayout.setOnClickListener {
                     val intent = Intent(context, Chatroom::class.java)
-                    intent.putExtra("chatroomName", fullName)
+                    intent.putExtra("chatroomName", userModel.fullName)
                     intent.putExtra("userID", uid)
                     intent.putExtra("isDM", true)
                     context.startActivity(intent)
                 }
             }
         }
-
-
-
-
     }
 
 }

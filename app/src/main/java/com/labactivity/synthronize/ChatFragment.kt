@@ -43,25 +43,18 @@ class ChatFragment(private val mainBinding: ActivityMainBinding) : Fragment() {
             val context = requireContext()
             recyclerView = binding.chatroomsRV
             recyclerView.layoutManager = LinearLayoutManager(activity)
-            getChatroomList(context)
+            setupChatroomListRV(context)
+            //getChatroomList(context)
         }
     }
 
-    private fun getChatroomList(context: Context){
-        //Retrieves current user chatroomList
-        FirebaseUtil().currentUserDetails().get().addOnSuccessListener {
-            if (it.exists()){
-                val chatroomList = it.get("chatroomList") as? ArrayList<String>
-                if (!chatroomList.isNullOrEmpty()) {
-                    val myQuery:Query = FirebaseUtil().retrieveAllChatRoomReferences().whereIn(FieldPath.documentId(), chatroomList)
-                        .orderBy("lastMsgTimestamp", Query.Direction.DESCENDING)
-                    setupChatroomListRV(myQuery, context)
-                }
-            }
-        }
-    }
+    //Set Recycle View
+    private fun setupChatroomListRV(context: Context){
+        val query:Query = FirebaseUtil().retrieveAllChatRoomReferences()
+            .orderBy("lastMsgTimestamp", Query.Direction.DESCENDING)
 
-    private fun setupChatroomListRV(query: Query, context: Context){
+        query.whereArrayContains("userIdList", FirebaseUtil().currentUserUid())
+
         val options: FirestoreRecyclerOptions<ChatroomModel> =
             FirestoreRecyclerOptions.Builder<ChatroomModel>().setQuery(query, ChatroomModel::class.java).build()
         chatroomAdapter = ChatroomAdapter(context, options)

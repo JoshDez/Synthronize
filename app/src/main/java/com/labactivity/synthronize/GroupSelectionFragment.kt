@@ -11,7 +11,6 @@ import com.labactivity.synthronize.databinding.FragmentExploreBinding
 import com.labactivity.synthronize.databinding.FragmentGroupBinding
 import com.labactivity.synthronize.databinding.FragmentGroupSelectionBinding
 class GroupSelectionFragment(private val mainBinding: ActivityMainBinding) : Fragment() {
-    // TODO: Rename and change types of parameters
     private lateinit var binding: FragmentGroupSelectionBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
