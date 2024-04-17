@@ -4,7 +4,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
-import com.labactivity.synthronize.model.UserModel
+//import com.google.firebase.storage.FirebaseStorage
+//import com.google.firebase.storage.StorageReference
 
 class FirebaseUtil {
 
@@ -16,7 +17,7 @@ class FirebaseUtil {
         return FirebaseAuth.getInstance().uid != null
     }
 
-    //Retrieving users documents
+    //For retrieving users documents
     fun currentUserDetails(): DocumentReference {
         return FirebaseFirestore.getInstance().collection("users").document(currentUserUid())
     }
@@ -28,7 +29,7 @@ class FirebaseUtil {
     }
 
 
-    //Methods for Chat Function
+    //For Chat Function
     fun retrieveChatRoomReference(chatroomID:String): DocumentReference {
         return FirebaseFirestore.getInstance().collection("chatroom").document(chatroomID)
     }
@@ -48,4 +49,14 @@ class FirebaseUtil {
             "$uid2-$uid1"
         }
     }
+
+    //For Firebase Storage
+/*
+    fun getUserProfilePicRef(uid:String): StorageReference {
+        return FirebaseStorage.getInstance().reference
+            .child("userProfilePicture")
+            //name of picture
+            .child(uid)
+    }
+*/
 }
